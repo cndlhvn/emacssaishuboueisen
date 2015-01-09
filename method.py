@@ -2,7 +2,6 @@
 import base64
 SHELL_ESCAPE= " '\";`|"
 
-
 def get_install_command():
 	if command_check("apt-get"):
 		tmp_command='apt-get install '
@@ -11,9 +10,6 @@ def get_install_command():
 	elif command_check("brew"):
 		tmp_command='brew install '
 	return tmp_command
-
-def mysql_exec(mysql_command):
-	run('echo "' + mysql_command + '"|mysql --batch --user=%s --password=%s --host=%s' % (env.mysqluser, env.mysqlpassword, env.mysqlhost), pty=True)
 
 def shell_safe(path):
 	return "".join([("\\" + _) if _ in SHELL_ESCAPE else _ for _ in path])
