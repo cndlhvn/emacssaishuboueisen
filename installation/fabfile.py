@@ -5,7 +5,7 @@ execfile("../method.py")
 
 
 @task
-def package_manager__update():
+def package_manager_update():
 	"""[1]パッケージマネージャーをアップデート"""
 	os_name=check_os()
 	
