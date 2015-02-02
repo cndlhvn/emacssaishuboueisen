@@ -35,5 +35,7 @@ def install_emacs24():
 			with cd("/etc/yum.repos.d"):        
 				sudo("wget http://pj.freefaculty.org/EL/pjku.repo")
 				sudo("rpm --import http://pj.freefaculty.org/EL/PaulJohnson-BinaryPackageSigningKey")
-				sudo("yum install emacs-24.2-4.el6.x86_64")
-				
+				sudo("yum install -y emacs-24.2-4.el6.x86_64")
+	elif(os_name == 'ubuntu'):
+		if not command_check("emacs"):
+			sudo("apt-get -y install emacs24")
