@@ -139,5 +139,8 @@ def share_config_with_root_user():
       if file_exists("/root/.emacs.d") or dir_exists("/root/.emacs.d"):
         sudo("mv /root/.emacs.d /root/.emacs.d_old")
     sudo("ln -s /home/"+login_user_name+"/.emacs.d /root/")
-
-
+  elif(os_name == 'mac'):
+    with mode_sudo():
+      if file_exists("/var/root/.emacs.d") or dir_exists("/var/root/.emacs.d"):
+        sudo("mv /var/root/.emacs.d /var/root/.emacs.d_old")
+    sudo("ln -s /Users/"+login_user_name+"/.emacs.d /var/root/")
