@@ -9,8 +9,8 @@ def check_os():
 		return 'centos'
 	elif command_check("brew"):
 		return 'mac'
-
-
+def get_login_user_name():
+  return run("whoami")
 
 def shell_safe(path):
 	return "".join([("\\" + _) if _ in SHELL_ESCAPE else _ for _ in path])
