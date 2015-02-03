@@ -8,32 +8,32 @@ def create_emacs_file_dir():
   """[1]emacsで使うフォルダと設定ファイルを作成"""
   
   if not dir_exists(EMACS_DIR):
-	run('mkdir ' + EMACS_DIR)
+    run('mkdir ' + EMACS_DIR)
   if not dir_exists(EMACS_DIR  + "backups"):
-	run('mkdir ' + EMACS_DIR + "backups")
+    run('mkdir ' + EMACS_DIR + "backups")
   if not dir_exists(EMACS_DIR  + "elpa"):
-	run('mkdir ' + EMACS_DIR + "elpa")
+    run('mkdir ' + EMACS_DIR + "elpa")
   if not dir_exists(EMACS_DIR  + "conf"):
-	run('mkdir ' + EMACS_DIR + "conf")
+    run('mkdir ' + EMACS_DIR + "conf")
   if not file_exists(EMACS_FILE):
-	run('touch '+EMACS_FILE)
+    run('touch '+EMACS_FILE)
 
 @task
 def elpa_management_file_upload():
   """[2]elpaを管理するファイルをconfフォルダにアップロード"""
   if not file_exists(EMACS_CONF+"elpa-component.el"):
-	put("elpa-component.el",EMACS_CONF)
+    put("elpa-component.el",EMACS_CONF)
 			  
 @task
 def set_emacs_user_setting():
   """[3]emacsのログインユーザーのデフォルトセッティング"""
 
   if not contains(EMACS_FILE,";;;user-language"):
-	file_appendln(EMACS_FILE,';;;user-language')
-	file_appendln(EMACS_FILE,';;;ユーザーの自然言語と文字エンコーディングを設定')
-	file_appendln(EMACS_FILE,'(set-language-environment "Japanese")')
-	file_appendln(EMACS_FILE,"(prefer-coding-system 'utf-8)")
-	file_appendln(EMACS_FILE,"")
+    file_appendln(EMACS_FILE,';;;user-language')
+    file_appendln(EMACS_FILE,';;;ユーザーの自然言語と文字エンコーディングを設定')
+    file_appendln(EMACS_FILE,'(set-language-environment "Japanese")')
+    file_appendln(EMACS_FILE,"(prefer-coding-system 'utf-8)")
+    file_appendln(EMACS_FILE,"")
 			  
   if not contains(EMACS_FILE,";;;elpa-setting"):
     file_appendln(EMACS_FILE,';;;elpa-setting')
@@ -45,10 +45,10 @@ def set_emacs_user_setting():
     file_appendln(EMACS_FILE,'')
 
   if not contains(EMACS_FILE,";;;emacs-color-theme"):
-	file_appendln(EMACS_FILE,';;;emacs-color-theme')
-	file_appendln(EMACS_FILE,';;emacsのカラーテーマをmanoj-darkに設定')
-	file_appendln(EMACS_FILE,"(load-theme 'manoj-dark t)")
-	file_appendln(EMACS_FILE,"")
+    file_appendln(EMACS_FILE,';;;emacs-color-theme')
+    file_appendln(EMACS_FILE,';;emacsのカラーテーマをmanoj-darkに設定')
+    file_appendln(EMACS_FILE,"(load-theme 'manoj-dark t)")
+    file_appendln(EMACS_FILE,"")
 	  
   if not contains(EMACS_FILE,";;;change-line-mode"):
     file_appendln(EMACS_FILE,';;;change-line-mode')
@@ -107,24 +107,24 @@ def set_emacs_user_setting():
     file_appendln(EMACS_FILE,"")
 
   if not contains(EMACS_FILE,";;;auto-close-parentheses"):
-	file_appendln(EMACS_FILE,";;;auto-close-parentheses")
-	file_appendln(EMACS_FILE,";;;括弧を自動的に閉じる設定")
-	file_appendln(EMACS_FILE,"(electric-pair-mode 1)")
-	file_appendln(EMACS_FILE,"")
+    file_appendln(EMACS_FILE,";;;auto-close-parentheses")
+    file_appendln(EMACS_FILE,";;;括弧を自動的に閉じる設定")
+    file_appendln(EMACS_FILE,"(electric-pair-mode 1)")
+    file_appendln(EMACS_FILE,"")
 
 @task
 def back_up_setting():
   """[4]ファイルのバックアップを一カ所に集める設定（便利）"""
   if not dir_exists(EMACS_DIR  + "backups"):
-	run('mkdir ' + EMACS_DIR + "backups")
+    run('mkdir ' + EMACS_DIR + "backups")
   if not contains(EMACS_FILE,";;;backup-setting"):
-	file_appendln(EMACS_FILE,";;;backup-setting")
-	file_appendln(EMACS_FILE,";; バックアップとオートセーブファイルを~/.emacs.d/backups/へ集める")
-	file_appendln(EMACS_FILE,"(add-to-list 'backup-directory-alist")
-	file_appendln(EMACS_FILE,'(cons "." "~/.emacs.d/backups/"))',1)
-	file_appendln(EMACS_FILE,"(setq auto-save-file-name-transforms")
-	file_appendln(EMACS_FILE,'`((".*" ,(expand-file-name "~/.emacs.d/backups/") t)))',1)
-	file_appendln(EMACS_FILE,"")
+    file_appendln(EMACS_FILE,";;;backup-setting")
+    file_appendln(EMACS_FILE,";; バックアップとオートセーブファイルを~/.emacs.d/backups/へ集める")
+    file_appendln(EMACS_FILE,"(add-to-list 'backup-directory-alist")
+    file_appendln(EMACS_FILE,'(cons "." "~/.emacs.d/backups/"))',1)
+    file_appendln(EMACS_FILE,"(setq auto-save-file-name-transforms")
+    file_appendln(EMACS_FILE,'`((".*" ,(expand-file-name "~/.emacs.d/backups/") t)))',1)
+    file_appendln(EMACS_FILE,"")
 	
 
 @task
@@ -135,9 +135,9 @@ def share_config_with_root_user():
   os_name=check_os()
   
   if(os_name == 'centos' or os_name == 'ubuntu'):
-	with mode_sudo():
-	  if file_exists("/root/.emacs.d") or dir_exists("/root/.emacs.d"):
-		sudo("mv /root/.emacs.d /root/.emacs.d_old")
-	sudo("ln -s /home/"+login_user_name+"/.emacs.d /root/")
+    with mode_sudo():
+      if file_exists("/root/.emacs.d") or dir_exists("/root/.emacs.d"):
+        sudo("mv /root/.emacs.d /root/.emacs.d_old")
+    sudo("ln -s /home/"+login_user_name+"/.emacs.d /root/")
 
 
