@@ -6,24 +6,24 @@ execfile("../method.py")
 
 @task
 def package_manager_update():
-	"""[1]パッケージマネージャーをアップデート"""
-	os_name=check_os()
-	
-	if(os_name =='centos'):
-		sudo("yum -y update")
-	elif(os_name == 'ubuntu'):
-		sudo("apt-get update")
-	elif(os_name == 'mac'):
-		run("brew update")
+  """[1]パッケージマネージャーをアップデート"""
+  os_name=check_os()
+  
+  if(os_name =='centos'):
+	sudo("yum -y update")
+  elif(os_name == 'ubuntu'):
+	sudo("apt-get update")
+  elif(os_name == 'mac'):
+	run("brew update")
 
 @task
 def install_basic_package():
-	"""[2]emacsをインストールするのに必要なパッケージ"""
-	os_name=check_os()
+  """[2]emacsをインストールするのに必要なパッケージ"""
+  os_name=check_os()
 
-	if(os_name == 'centos'):
-		if not command_check("wget"):
-			sudo("yum install -y wget")
+  if(os_name == 'centos'):
+	if not command_check("wget"):
+	  sudo("yum install -y wget")
 
 @task
 def install_emacs24():
