@@ -30,10 +30,3 @@ env.password ="your_pc_password"
 #env.user = "vagrant"
 
 
-#myqlのアクセス
-env.mysql_user = "root"
-env.mysql_password = ""
-env.mysql_host = "localhost"
-
-
-
