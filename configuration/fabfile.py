@@ -5,7 +5,7 @@ execfile("../method.py")
 
 @task
 def create_emacs_file_dir():
-  """[1]emacsで使うフォルダと設定ファイルを作成"""
+  """[1]!emacsで使うフォルダと設定ファイルを作成"""
   
   if not dir_exists(EMACS_DIR):
     run('mkdir ' + EMACS_DIR)
@@ -20,13 +20,13 @@ def create_emacs_file_dir():
 
 @task
 def elpa_management_file_upload():
-  """[2]elpaを管理するファイルをconfフォルダにアップロード"""
+  """[2]!elpaを管理するファイルをconfフォルダにアップロード"""
   if not file_exists(EMACS_CONF+"elpa-component.el"):
     put("elpa-component.el",EMACS_CONF)
 			  
 @task
 def set_emacs_user_setting():
-  """[3]emacsのログインユーザーのデフォルトセッティング"""
+  """[3]!emacsのログインユーザーのデフォルトセッティング"""
 
   if not contains(EMACS_FILE,";;;user-language"):
     file_appendln(EMACS_FILE,';;;user-language')
