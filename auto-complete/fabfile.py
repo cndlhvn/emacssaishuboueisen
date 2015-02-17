@@ -19,5 +19,6 @@ def auto_complete_installing():
       file_appendln(EMACS_FILE,"(when (require 'auto-complete-config nil t)")
       file_appendln(EMACS_FILE,";;auto-completeの候補データを収めるフォルダを指定",1)
       file_appendln(EMACS_FILE,"(add-to-list 'ac-dictionary-directories \"~/.emacs.d/ac-dict\")",1)
+      file_appendln(EMACS_FILE,";;M-tabで補完候補を表示",1)
       file_appendln(EMACS_FILE,'(define-key ac-mode-map (kbd "M-TAB") \'auto-complete)',1)
       file_appendln(EMACS_FILE,"(ac-config-default))",1)
