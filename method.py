@@ -13,9 +13,32 @@ def check_os():
 def get_login_user_name():
   return run("whoami")
 
+def get_tab_char():
+  os_name=check_os()
+  if(os_name =='mac'):
+    return "\\\t"
+  else:
+    return "\\t"
+
+def get_newline_char():
+  os_name=check_os()
+  if(os_name =='mac'):
+    return "\\\n"
+  else:
+    return "\\n"
+  
 def register_library_to_elpa(library_name):
   library_symbol=";;;"+library_name
-  sed("elpa-component.el",';;add-elpa-package',';;add-elpa-package\\n\\t\\t'+library_name+library_symbol, limit='')
+  newline_char=get_newline_char()
+  tab=get_tab_char()
+  sed("elpa-component.el",';;add-elpa-package',';;add-elpa-package'+newline_char+tab+tab+library_name+library_symbol, limit='')
+
+def register_elisp_to_elpa(library_name,url):
+  library_symbol=";;;"+library_name
+  url='"'+url+'"'
+  newline_char=get_newline_char()
+  tab=get_tab_char()
+  sed("elpa-component.el",';;add-elisp-url',';;add-elisp-url'+newline_char+tab+tab+url+library_symbol, limit='')
 
 def shell_safe(path):
   return "".join([("\\" + _) if _ in SHELL_ESCAPE else _ for _ in path])
