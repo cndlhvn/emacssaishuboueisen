@@ -23,7 +23,7 @@ def install_basic_package():
 
   if(os_name == 'centos'):
     if not command_check("wget"):
-      sudo("yum install -y wget")
+      sudo("yum install -y wget ncurses-devel")
 
 @task
 def install_emacs24():
@@ -32,10 +32,14 @@ def install_emacs24():
   
   if(os_name == 'centos'):
     if not command_check("emacs"):
-      with cd("/etc/yum.repos.d"):        
-        sudo("wget http://pj.freefaculty.org/EL/pjku.repo")
-        sudo("rpm --import http://pj.freefaculty.org/EL/PaulJohnson-BinaryPackageSigningKey")
-        sudo("yum install -y emacs-24.2-4.el6.x86_64")
-    elif(os_name == 'ubuntu'):
-      if not command_check("emacs"):
-        sudo("apt-get -y install emacs24")
+      run("wget http://ftp.jaist.ac.jp/pub/GNU/emacs/emacs-24.3.tar.gz")
+      run("tar zxvfp emacs-24.3.tar.gz")
+      with cd("emacs-24.3"):
+        run("./configure -without-x -without-selinux")
+        run("make")
+        sudo("make install")
+        run("rm -rf ~/emacs-24.3")
+        run("rm -f ~/emacs-24.3.tar.gz")
+  elif(os_name == 'ubuntu'):
+    if not command_check("emacs"):
+      sudo("apt-get -y install emacs24")
