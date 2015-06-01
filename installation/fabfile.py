@@ -23,7 +23,8 @@ def install_basic_package():
 
   if(os_name == 'centos'):
     if not command_check("wget"):
-      sudo("yum install -y wget ncurses-devel")
+      sudo("yum install -y wget")
+    sudo("yum install -y ncurses-devel")
 
 @task
 def install_emacs24():
