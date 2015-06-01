@@ -133,7 +133,11 @@ def share_config_with_root_user():
   
   login_user_name=get_login_user_name()
   os_name=check_os()
-  
+
+  if(os_name == 'centos'):
+    sudo("chmod 740 /etc/sudoers")
+    sed("/etc/sudoers","secure_path = /sbin:/bin:/usr/sbin:/usr/bin","secure_path = /usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin",limit="" ,use_sudo=True)
+    sudo("chmod 440 /etc/sudoers")
   if(os_name == 'centos' or os_name == 'ubuntu'):
     with mode_sudo():
       if file_exists("/root/.emacs.d") or dir_exists("/root/.emacs.d"):
