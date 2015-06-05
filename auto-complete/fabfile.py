@@ -15,10 +15,13 @@ def auto_complete_installing():
       run("mkdir "+EMACS_DIR+"ac-dict")
       
     if not contains(EMACS_FILE,";;;auto-complete"):
-      file_appendln(EMACS_FILE,";;;auto-complete")
-      file_appendln(EMACS_FILE,"(when (require 'auto-complete-config nil t)")
-      file_appendln(EMACS_FILE,";;auto-completeの候補データを収めるフォルダを指定",1)
-      file_appendln(EMACS_FILE,"(add-to-list 'ac-dictionary-directories \"~/.emacs.d/ac-dict\")",1)
-      file_appendln(EMACS_FILE,";;M-tabで補完候補を表示",1)
-      file_appendln(EMACS_FILE,'(define-key ac-mode-map (kbd "M-TAB") \'auto-complete)',1)
-      file_appendln(EMACS_FILE,"(ac-config-default))",1)
+      auto_complete="""
+;;;auto-complete
+(when (require 'auto-complete-config nil t)
+  (ac-config-default)
+  ;;auto-completeの候補データを収めるフォルダを指定
+  (add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
+  ;;M-tabで補完候補を表示
+  (define-key ac-mode-map (kbd "M-TAB") 'auto-complete))"""
+      file_appendln(EMACS_FILE,auto_complete)
+
