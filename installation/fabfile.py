@@ -40,7 +40,6 @@ def install_emacs24():
         run("make")
         sudo("make install")
         run("rm -rf ~/emacs-24.3")
-        run("rm -f ~/emacs-24.3.tar.gz")
   elif(os_name == 'ubuntu'):
     if not command_check("emacs"):
       sudo("apt-get -y install emacs24")
