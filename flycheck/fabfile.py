@@ -12,6 +12,7 @@ def flycheck_installing():
       run("emacs --batch --script elpa-component.el")
 
   if not contains(EMACS_FILE,";;;flycheck"):
-    file_appendln(EMACS_FILE,";;;flycheck")
-    file_appendln(EMACS_FILE,"(add-hook 'after-init-hook #'global-flycheck-mode)")
-    file_appendln(EMACS_FILE,"")
+    flycheck="""
+;;;flycheck
+(add-hook 'after-init-hook #'global-flycheck-mode)"""
+    file_appendln(EMACS_FILE,flycheck)
