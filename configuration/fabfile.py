@@ -29,88 +29,98 @@ def set_emacs_user_setting():
   """[3]!emacsのログインユーザーのデフォルトセッティング"""
 
   if not contains(EMACS_FILE,";;;user-language"):
-    file_appendln(EMACS_FILE,';;;user-language')
-    file_appendln(EMACS_FILE,';;;ユーザーの自然言語と文字エンコーディングを設定')
-    file_appendln(EMACS_FILE,'(set-language-environment "Japanese")')
-    file_appendln(EMACS_FILE,"(prefer-coding-system 'utf-8)")
-    file_appendln(EMACS_FILE,"")
+    user_language="""
+;;;user-language
+;;;ユーザーの自然言語と文字エンコーディングを設定
+(set-language-environment "Japanese")
+(prefer-coding-system 'utf-8)"""
+    file_appendln(EMACS_FILE, user_language)
 			  
   if not contains(EMACS_FILE,";;;elpa-setting"):
-    file_appendln(EMACS_FILE,';;;elpa-setting')
-    file_appendln(EMACS_FILE,';;;elpaを使う為に必要な設定')
-    file_appendln(EMACS_FILE,"(require 'package)")
-    file_appendln(EMACS_FILE,'(add-to-list \'package-archives \'("melpa" . "http://melpa.milkbox.net/packages/"))')
-    file_appendln(EMACS_FILE,'(add-to-list \'package-archives \'("marmalade" . "http://marmalade-repo.org/packages/"))')
-    file_appendln(EMACS_FILE,'(package-initialize)')
-    file_appendln(EMACS_FILE,'')
+    elpa_setting="""
+;;;elpa-setting
+;;;elpaを使う為に必要な設定
+(require 'package)
+(add-to-list \'package-archives \'("melpa" . "http://melpa.milkbox.net/packages/"))
+(add-to-list \'package-archives \'("marmalade" . "http://marmalade-repo.org/packages/"))
+(package-initialize)"""
+    file_appendln(EMACS_FILE,elpa_setting)
 
   if not contains(EMACS_FILE,";;;emacs-color-theme"):
-    file_appendln(EMACS_FILE,';;;emacs-color-theme')
-    file_appendln(EMACS_FILE,';;emacsのカラーテーマをmanoj-darkに設定')
-    file_appendln(EMACS_FILE,"(load-theme 'manoj-dark t)")
-    file_appendln(EMACS_FILE,"")
+    emacs_color_theme="""
+;;;emacs-color-theme
+;;emacsのカラーテーマをmanoj-darkに設定
+(load-theme 'manoj-dark t)"""
+    file_appendln(EMACS_FILE,emacs_color_theme)
 	  
   if not contains(EMACS_FILE,";;;change-line-mode"):
-    file_appendln(EMACS_FILE,';;;change-line-mode')
-    file_appendln(EMACS_FILE,';;;行の画面外の折り返しを変更するショートカット')
-    file_appendln(EMACS_FILE,'(define-key global-map (kbd "M-l") \'toggle-truncate-lines)')
-    file_appendln(EMACS_FILE,"")
+    change_line_mode="""
+;;;change-line-mode
+;;;行の画面外の折り返しを変更するショートカット
+(define-key global-map (kbd "M-l") \'toggle-truncate-lines)"""
+    file_appendln(EMACS_FILE,change_line_mode)
 
   if not contains(EMACS_FILE,";;;comment_out"):
-    file_appendln(EMACS_FILE,';;;comment_out')
-    file_appendln(EMACS_FILE,';;;複数行のコメントアウトの設定ctrlと/で選択範囲を全てコメントアウト')
-    file_appendln(EMACS_FILE,"(define-key global-map (kbd \"C-c /\") 'comment-or-uncomment-region)")
-    file_append(EMACS_FILE,'')
+    comment_out="""
+;;;comment_out
+;;;複数行のコメントアウトの設定ctrlと/で選択範囲を全てコメントアウト
+(define-key global-map (kbd \"C-c /\") 'comment-or-uncomment-region)"""
+    file_appendln(EMACS_FILE,comment_out)
 
   if not contains(EMACS_FILE,";;;page_up"):
-    file_appendln(EMACS_FILE,';;;page_up')
-    file_appendln(EMACS_FILE,';;; ページアップのキーにctrl+]を追加')
-    file_appendln(EMACS_FILE,"(define-key global-map (kbd \"C-]\") 'scroll-down)")
-    file_appendln(EMACS_FILE,'')
+    page_up="""
+;;;page_up
+;;; ページアップのキーにctrl+]を追加
+(define-key global-map (kbd \"C-]\") 'scroll-down)"""
+    file_appendln(EMACS_FILE,page_up)
 
   if not contains(EMACS_FILE,";;;buffer_reload"):
-    file_appendln(EMACS_FILE,";;;buffer_reload")
-    file_appendln(EMACS_FILE,";;;バッファの再読み込みをM+rで実行する")
-    file_appendln(EMACS_FILE,"(defun revert-buffer-no-confirm (&optional force-reverting)")
-    file_appendln(EMACS_FILE,'(interactive "P")',1)
-    file_appendln(EMACS_FILE,';;(message "force-reverting value is %s" force-reverting)',1)
-    file_appendln(EMACS_FILE,"(if (or force-reverting (not (buffer-modified-p)))",1)
-    file_appendln(EMACS_FILE,"(revert-buffer :ignore-auto :noconfirm)",3)
-    file_appendln(EMACS_FILE,'(error "The buffer has been modified")))',2)
-    file_appendln(EMACS_FILE,'(global-set-key \"\M-r\" \'revert-buffer-no-confirm)')
-    file_appendln(EMACS_FILE,"")
+    buffer_reload="""
+;;;buffer_reload
+;;;バッファの再読み込みをM+rで実行する
+(defun revert-buffer-no-confirm (&optional force-reverting)
+  (interactive "P")
+  (if (or force-reverting (not (buffer-modified-p)))
+      (revert-buffer :ignore-auto :noconfirm)
+    (error "The buffer has been modified")))
+(global-set-key \"\M-r\" \'revert-buffer-no-confirm)"""
+    file_appendln(EMACS_FILE,buffer_reload)
 
   if not contains(EMACS_FILE,";;;show-column-number"):
-    file_appendln(EMACS_FILE,";;;show-column-number")
-    file_appendln(EMACS_FILE,";;;行番号を表示")
-    file_appendln(EMACS_FILE,"(column-number-mode t)")
-    file_appendln(EMACS_FILE,"")
+    show_column_number="""
+;;;show-column-number
+;;;行番号を表示
+(column-number-mode t)"""
+    file_appendln(EMACS_FILE,show_column_number)
 
   if not contains(EMACS_FILE,";;;show-file-size"):
-    file_appendln(EMACS_FILE,";;;show-file-size")
-    file_appendln(EMACS_FILE,";;;ファイルサイズを表示")
-    file_appendln(EMACS_FILE,"(size-indication-mode t)")
-    file_appendln(EMACS_FILE,"")
+    show_file_size="""
+;;;show-file-size
+;;;ファイルサイズを表示
+(size-indication-mode t)"""
+    file_appendln(EMACS_FILE,show_file_size)
 
   if not contains(EMACS_FILE,";;;paren-mode"):
-    file_appendln(EMACS_FILE,";;;paren-mode")
-    file_appendln(EMACS_FILE,";;;カーソルを括弧に合わせると範囲を表示する")
-    file_appendln(EMACS_FILE,"(show-paren-mode t)")
-    file_appendln(EMACS_FILE,";;範囲表示の遅延を０秒にする")
-    file_appendln(EMACS_FILE,"(setq show-paren-delay 0)")
-    file_appendln(EMACS_FILE,";;範囲内全てをカラーリングする")
-    file_appendln(EMACS_FILE,"(setq show-paren-style 'expression)")
-    file_appendln(EMACS_FILE,";;括弧内の背景色反転をオフに設定")
-    file_appendln(EMACS_FILE,"(set-face-background 'show-paren-match-face nil)")
-    file_appendln(EMACS_FILE,";;括弧内をアンダーラインで表示する")
-    file_appendln(EMACS_FILE,'(set-face-underline-p \'show-paren-match-face "color-123")')
-    file_appendln(EMACS_FILE,"")
+    paren_mode = """
+;;;paren-mode
+;;;カーソルを括弧に合わせると範囲を表示する
+(show-paren-mode t)
+;;範囲表示の遅延を０秒にする
+(setq show-paren-delay 0)
+;;範囲内全てをカラーリングする
+(setq show-paren-style 'expression)
+;;括弧内の背景色反転をオフに設定
+(set-face-background 'show-paren-match-face nil)
+;;括弧内をアンダーラインで表示する
+(set-face-underline-p \'show-paren-match-face "color-123")"""
+    file_appendln(EMACS_FILE,paren_mode)
 
   if not contains(EMACS_FILE,";;;auto-close-parentheses"):
-    file_appendln(EMACS_FILE,";;;auto-close-parentheses")
-    file_appendln(EMACS_FILE,";;;括弧を自動的に閉じる設定")
-    file_appendln(EMACS_FILE,"(electric-pair-mode 1)")
-    file_appendln(EMACS_FILE,"")
+    auto_close_parentheses="""
+;;;auto-close-parentheses
+;;;括弧を自動的に閉じる設定
+(electric-pair-mode 1)"""
+    file_appendln(EMACS_FILE,auto_close_parentheses)
 
 @task
 def back_up_setting():
@@ -118,13 +128,13 @@ def back_up_setting():
   if not dir_exists(EMACS_DIR  + "backups"):
     run('mkdir ' + EMACS_DIR + "backups")
   if not contains(EMACS_FILE,";;;backup-setting"):
-    file_appendln(EMACS_FILE,";;;backup-setting")
-    file_appendln(EMACS_FILE,";; バックアップとオートセーブファイルを~/.emacs.d/backups/へ集める")
-    file_appendln(EMACS_FILE,"(add-to-list 'backup-directory-alist")
-    file_appendln(EMACS_FILE,'(cons "." "~/.emacs.d/backups/"))',1)
-    file_appendln(EMACS_FILE,"(setq auto-save-file-name-transforms")
-    file_appendln(EMACS_FILE,'`((".*" ,(expand-file-name "~/.emacs.d/backups/") t)))',1)
-    file_appendln(EMACS_FILE,"")
+    backup_setting = """
+;;;backup-setting
+;; バックアップとオートセーブファイルを~/.emacs.d/backups/へ集める
+(add-to-list 'backup-directory-alist(cons "." "~/.emacs.d/backups/"))
+(setq auto-save-file-name-transforms
+      `((".*" ,(expand-file-name "~/.emacs.d/backups/") t)))"""
+    file_appendln(EMACS_FILE,backup_setting)
 	
 
 @task
