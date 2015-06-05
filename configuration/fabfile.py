@@ -122,6 +122,14 @@ def set_emacs_user_setting():
 (electric-pair-mode 1)"""
     file_appendln(EMACS_FILE,auto_close_parentheses)
 
+  if not contains(EMACS_FILE,";;;default_tab_width"):
+    default_tab_width="""
+;;;default_tab_width
+;;;デフォルトタブ幅の設定
+(setq default-tab-width 2)
+(setq tab-width 2)"""
+    file_appendln(EMACS_FILE,default_tab_width)
+
 @task
 def back_up_setting():
   """[4]ファイルのバックアップを一カ所に集める設定（便利）"""
