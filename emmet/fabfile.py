@@ -12,20 +12,18 @@ def emmet_install():
       run("emacs --batch --script elpa-component.el")
 
   if not contains(EMACS_FILE,";;;emmet-mode"):
-    file_appendln(EMACS_FILE,";;;emmet-mode")
-    file_appendln(EMACS_FILE,";;;emmetの設定")
-    file_appendln(EMACS_FILE,";;emmetの記法の文末でC-jで展開")
-    file_appendln(EMACS_FILE,"(when (require 'emmet-mode nil t)")
-    file_appendln(EMACS_FILE,";; マークアップ言語全部で使う",1)
-    file_appendln(EMACS_FILE,"(add-hook 'sgml-mode-hook 'emmet-mode)",1)
-    file_appendln(EMACS_FILE,";; CSSにも使う",1)
-    file_appendln(EMACS_FILE,"(add-hook 'css-mode-hook  'emmet-mode)",1)
-    file_appendln(EMACS_FILE,";; web-modeに付け加える",1)
-    file_appendln(EMACS_FILE,"(add-hook 'web-mode-hook  'emmet-mode)",1)
-    file_appendln(EMACS_FILE,";; php-modeに付け加える",1)
-    file_appendln(EMACS_FILE,"(add-hook 'php-mode-hook 'emmet-mode)",1)
-    file_appendln(EMACS_FILE,";; indent はスペース2個",1)
-    file_appendln(EMACS_FILE,"(add-hook 'emmet-mode-hook (lambda () (setq emmet-indentation 2))))",1)
-    file_appendln(EMACS_FILE,"")
-    
-
+    emmet_mode="""
+;;;emmet-mode
+;;emmetの記法の文末でC-jで展開
+(when (require 'emmet-mode nil t)
+;; マークアップ言語全部で使う
+(add-hook 'sgml-mode-hook 'emmet-mode)
+;; CSSにも使う
+(add-hook 'css-mode-hook  'emmet-mode)
+;; web-modeに付け加える
+(add-hook 'web-mode-hook  'emmet-mode)
+;; php-modeに付け加える
+(add-hook 'php-mode-hook 'emmet-mode)
+;; indent はスペース2個
+(add-hook 'emmet-mode-hook (lambda () (setq emmet-indentation 2))))"""
+    file_appendln(EMACS_FILE,emmet_mode)
