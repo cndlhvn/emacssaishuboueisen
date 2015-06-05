@@ -12,10 +12,12 @@ def dmacro_install():
       run("emacs --batch --script elpa-component.el")
       
   if not contains(EMACS_FILE,";;;dmacro_setting"):
-    file_appendln(EMACS_FILE,";;;dmacro_setting")
-    file_appendln(EMACS_FILE,";;;繰り返しコマンドdmacroの設定")
-    file_appendln(EMACS_FILE,"(defconst *dmacro-key* \"\C-t\" \"繰返し指定キー\")")
-    file_appendln(EMACS_FILE,"(global-set-key *dmacro-key* 'dmacro-exec)")
-    file_appendln(EMACS_FILE,"(autoload 'dmacro-exec \"dmacro\" nil t)")
-    file_appendln(EMACS_FILE,"")
+    dmacro_setting ="""
+;;;dmacro_setting
+;;繰り返したい処理をemacs上で2回以上繰り返す
+;;C-tで繰り返せる
+(defconst *dmacro-key* \"\C-t\" \"繰返し指定キー\")
+(global-set-key *dmacro-key* 'dmacro-exec)
+(autoload 'dmacro-exec \"dmacro\" nil t)"""
+    file_appendln(EMACS_FILE,dmacro_setting)
 
