@@ -38,10 +38,10 @@ def anything_install():
     ;;そこでFind file as rootを選んでファイルを開く時、sudoでファイルを開く
     (setq anything-su-or-sudo "sudo"))
   ;;今のところこの下の設定は使い方が分からない
-  (require 'anything-show-completion nil t)
-  (when (require 'anything-complete nil t)
-    ;; lispシンボルの補完候補の再検索時間
-    (anything-lisp-complete-symbol-set-timer 150)))"""
+  ;;(require 'anything-show-completion nil t)
+  ;;(when (require 'anything-complete nil t)
+  ;; lispシンボルの補完候補の再検索時間
+  ;;(anything-lisp-complete-symbol-set-timer 150)))"""
     file_appendln(EMACS_FILE,anything)
     
 @task
