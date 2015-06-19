@@ -122,6 +122,15 @@ def set_emacs_user_setting():
 (electric-pair-mode 1)"""
     file_appendln(EMACS_FILE,auto_close_parentheses)
 
+  if not contains(EMACS_FILE,";;;show-file-name"):
+    show_file_name="""
+;;;show-file-name
+(defun show-file-name ()
+  "Show the full path file name in the minibuffer."
+  (interactive)
+  (message (buffer-file-name)))"""
+    file_appendln(EMACS_FILE,show_file_name)
+
   if not contains(EMACS_FILE,";;;default_tab_width"):
     default_tab_width="""
 ;;;default_tab_width
