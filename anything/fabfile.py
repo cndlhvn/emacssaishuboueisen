@@ -36,7 +36,7 @@ def anything_install():
     ;;anythingで表示されたファイルリストにカーソルを当てたまま
     ;;タブを押すとファイルに対してのアクションが選択できる
     ;;そこでFind file as rootを選んでファイルを開く時、sudoでファイルを開く
-    (setq anything-su-or-sudo "sudo"))
+    (setq anything-su-or-sudo "sudo")))
   ;;今のところこの下の設定は使い方が分からない
   ;;(require 'anything-show-completion nil t)
   ;;(when (require 'anything-complete nil t)
