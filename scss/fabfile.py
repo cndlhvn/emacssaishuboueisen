@@ -6,14 +6,10 @@ execfile("../method.py")
 @task
 def scss_install():
   """[1]scssのインストール"""
-  with cd(EMACS_CONF):
-    if not contains("elpa-component.el",";;;scss-mode"):
-      register_library_to_elpa("scss-mode")
-      run("emacs --batch --script elpa-component.el")
-
   if not contains(EMACS_FILE,";;;scss-mode"):
     scss_mode="""
 ;;;scss-mode
+(el-get-bundle scss-mode)
 (when (require 'scss-mode nil t)
 (add-to-list 'auto-mode-alist '("\.scss$" . scss-mode))
 ;; インデント幅を2にする
@@ -28,3 +24,5 @@ def scss_install():
   (set (make-local-variable 'scss-compile-at-save) nil))
 (add-hook 'scss-mode-hook 'scss-custom))"""
     file_appendln(EMACS_FILE,scss_mode)
+    with cd(EMACS_DIR):
+      run("emacs --batch --script init.el")
