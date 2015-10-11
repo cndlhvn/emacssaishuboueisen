@@ -6,15 +6,11 @@ execfile("../method.py")
 @task
 def anything_install():
   """[1]anythingのインストール"""
-  with cd(EMACS_CONF):
-    if not contains("elpa-component.el",";;;anything"):
-      register_library_to_elpa("anything")
-      run("emacs --batch --script elpa-component.el")
-      
   if not contains(EMACS_FILE,";;;anything"):
     anything="""
 ;;;anything    
-  (when (require 'anything nil t)
+(el-get-bundle anything)
+(when (require 'anything nil t)
   (when (require 'anything-startup nil t))
   (setq
    ;; 候補を表示するまでの時間。デフォは0.5
@@ -43,6 +39,8 @@ def anything_install():
   ;; lispシンボルの補完候補の再検索時間
   ;;(anything-lisp-complete-symbol-set-timer 150)))"""
     file_appendln(EMACS_FILE,anything)
+    with cd(EMACS_DIR):
+      run("emacs --batch --script init.el")
     
 @task
 def anything_killring_list():
