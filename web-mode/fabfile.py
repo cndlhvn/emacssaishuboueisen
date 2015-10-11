@@ -6,20 +6,16 @@ execfile("../method.py")
 @task
 def web_mode_install():
   """[1]web-modeをインストール"""
-  with cd(EMACS_CONF):
-    if not contains("elpa-component.el",";;;web-mode"):
-      register_library_to_elpa("web-mode")
-      run("emacs --batch --script elpa-component.el")
-
   if not contains(EMACS_FILE,";;;web_mode"):
     web_mode="""
 ;;;web_mode
+(el-get-bundle web-mode)
 (when (require 'web-mode nil t)
   ;;web-modeを適応させる拡張子
-  (add-to-list 'auto-mode-alist '(\"\.php\" . web-mode))
-  (add-to-list 'auto-mode-alist '(\"\.html\". web-mode))
-  (add-to-list 'auto-mode-alist '(\"\.html.erb\". web-mode))
-  (add-to-list 'auto-mode-alist '(\"\.ctp\" . web-mode))
+  (add-to-list 'auto-mode-alist '(\"\.php$\" . web-mode))
+  (add-to-list 'auto-mode-alist '(\"\.html$\". web-mode))
+  (add-to-list 'auto-mode-alist '(\"\.html.erb$\". web-mode))
+  (add-to-list 'auto-mode-alist '(\"\.ctp$\" . web-mode))
   (defun my-web-mode-hook ()
     ;;インデントモードをオフ
     (setq-default indent-tabs-mode nil)
@@ -34,6 +30,8 @@ def web_mode_install():
     (setq web-mode-code-indent-offset 2))
   (add-hook 'web-mode-hook  'my-web-mode-hook))"""
     file_appendln(EMACS_FILE,web_mode)
+    with cd(EMACS_DIR):
+      run("emacs --batch --script init.el")
 
 @task
 def web_mode_color():
