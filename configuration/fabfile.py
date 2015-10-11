@@ -11,22 +11,12 @@ def create_emacs_file_dir():
     run('mkdir ' + EMACS_DIR)
   if not dir_exists(EMACS_DIR  + "backups"):
     run('mkdir ' + EMACS_DIR + "backups")
-  if not dir_exists(EMACS_DIR  + "elpa"):
-    run('mkdir ' + EMACS_DIR + "elpa")
-  if not dir_exists(EMACS_DIR  + "conf"):
-    run('mkdir ' + EMACS_DIR + "conf")
   if not file_exists(EMACS_FILE):
     run('touch '+EMACS_FILE)
-
-@task
-def elpa_management_file_upload():
-  """[2]!elpaを管理するファイルをconfフォルダにアップロード"""
-  if not file_exists(EMACS_CONF+"elpa-component.el"):
-    put("elpa-component.el",EMACS_CONF)
 			  
 @task
 def set_emacs_user_setting():
-  """[3]!emacsのログインユーザーのデフォルトセッティング"""
+  """[2]!emacsのログインユーザーのデフォルトセッティング"""
 
   if not contains(EMACS_FILE,";;;user-language"):
     user_language="""
@@ -36,15 +26,24 @@ def set_emacs_user_setting():
 (prefer-coding-system 'utf-8)"""
     file_appendln(EMACS_FILE, user_language)
 			  
-  if not contains(EMACS_FILE,";;;elpa-setting"):
-    elpa_setting="""
-;;;elpa-setting
-;;;elpaを使う為に必要な設定
-(require 'package)
-(add-to-list \'package-archives \'("melpa" . "http://melpa.milkbox.net/packages/"))
-(add-to-list \'package-archives \'("marmalade" . "http://marmalade-repo.org/packages/"))
-(package-initialize)"""
-    file_appendln(EMACS_FILE,elpa_setting)
+  if not contains(EMACS_FILE, ";;;el-get-setting"):
+    el_get="""
+;;;el-get-setting
+(when load-file-name
+  (setq user-emacs-directory (file-name-directory load-file-name)))
+
+(add-to-list 'load-path (locate-user-emacs-file "el-get/el-get"))
+
+(unless (require 'el-get nil 'noerror)
+  (with-current-buffer
+      (url-retrieve-synchronously
+       "https://raw.githubusercontent.com/dimitri/el-get/master/el-get-install.el")
+    (goto-char (point-max))
+    (eval-print-last-sexp)))
+"""
+    file_appendln(EMACS_FILE, el_get)
+    with cd(EMACS_DIR):
+      run("emacs --batch --script init.el")
 
   if not contains(EMACS_FILE,";;;emacs-color-theme"):
     emacs_color_theme="""
@@ -142,7 +141,7 @@ def set_emacs_user_setting():
 
 @task
 def back_up_setting():
-  """[4]ファイルのバックアップを一カ所に集める設定（便利）"""
+  """[3]ファイルのバックアップを一カ所に集める設定（便利）"""
   if not dir_exists(EMACS_DIR  + "backups"):
     run('mkdir ' + EMACS_DIR + "backups")
   if not contains(EMACS_FILE,";;;backup-setting"):
@@ -157,7 +156,7 @@ def back_up_setting():
 
 @task
 def share_config_with_root_user():
-  """[4]ログインユーザーのemacs設定をlnでsudoユーザーと共有する"""
+  """[3]ログインユーザーのemacs設定をlnでsudoユーザーと共有する"""
   
   login_user_name=get_login_user_name()
   os_name=check_os()
