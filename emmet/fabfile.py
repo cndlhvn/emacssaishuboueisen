@@ -6,15 +6,11 @@ execfile("../method.py")
 @task
 def emmet_install():
   """[1]emmetを導入"""
-  with cd(EMACS_CONF):
-    if not contains("elpa-component.el",";;;emmet-mode"):
-      register_library_to_elpa("emmet-mode")
-      run("emacs --batch --script elpa-component.el")
-
   if not contains(EMACS_FILE,";;;emmet-mode"):
     emmet_mode="""
 ;;;emmet-mode
 ;;emmetの記法の文末でC-jで展開
+(el-get-bundle emmet-mode)
 (when (require 'emmet-mode nil t)
   ;; マークアップ言語全部で使う
   (add-hook 'sgml-mode-hook 'emmet-mode)
@@ -27,3 +23,5 @@ def emmet_install():
   ;; indent はスペース2個
   (add-hook 'emmet-mode-hook (lambda () (setq emmet-indentation 2))))"""
     file_appendln(EMACS_FILE,emmet_mode)
+    with cd(EMACS_DIR):
+      run("emacs --batch --script init.el")
