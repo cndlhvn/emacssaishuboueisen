@@ -6,14 +6,10 @@ execfile("../method.py")
 @task
 def haml_install():
   """[1]hamlのインストール"""
-  with cd(EMACS_CONF):
-    if not contains("elpa-component.el",";;;haml-mode"):
-      register_library_to_elpa("haml-mode")
-      run("emacs --batch --script elpa-component.el")
-
   if not contains(EMACS_FILE,";;;haml-mode"):
     haml_mode="""
 ;;;haml-mode
+(el-get-bundle haml-mode)
 (when (require 'haml-mode nil t)
 (add-hook 'haml-mode-hook
           (lambda ()
@@ -22,4 +18,6 @@ def haml_install():
             (setq c-basic-offset 8)
             (setq haml-indent-offset 2))))"""
     file_appendln(EMACS_FILE,haml_mode)
+    with cd(EMACS_DIR):
+      run("emacs --batch --script init.el")
     
