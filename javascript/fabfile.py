@@ -12,8 +12,6 @@ def js_setting():
 (add-hook 'js-mode-hook
           '(lambda()
              (setq-default indent-tabs-mode nil)
-             (setq tab-width 2)
              (setq js-indent-level 2)
-             (indent-tabs-mode nil)
              ))"""
     file_appendln(EMACS_FILE,js_conf) 
