@@ -139,17 +139,6 @@ def set_emacs_user_setting():
 (setq tab-width 2)"""
     file_appendln(EMACS_FILE,default_tab_width)
 
-  if not contains(EMACS_FILE,";;;js_conf"):
-    js_conf="""
-;;;js_conf
-(add-hook 'js-mode-hook
-          '(lambda()
-             (setq-default indent-tabs-mode nil)
-             (setq tab-width 2)
-             (setq js-indent-level 2)
-             (indent-tabs-mode nil)
-             ))"""
-    file_appendln(EMACS_FILE,";;;js_conf") 
 
 @task
 def back_up_setting():
