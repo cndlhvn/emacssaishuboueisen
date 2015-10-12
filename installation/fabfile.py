@@ -33,13 +33,14 @@ def install_emacs24():
   
   if(os_name == 'centos'):
     if not command_check("emacs"):
-      run("wget http://ftp.jaist.ac.jp/pub/GNU/emacs/emacs-24.3.tar.gz")
-      run("tar zxvfp emacs-24.3.tar.gz")
-      with cd("emacs-24.3"):
+      run("wget http://ftp.jaist.ac.jp/pub/GNU/emacs/emacs-24.5.tar.gz")
+      run("tar zxvfp emacs-24.5.tar.gz")
+      with cd("emacs-24.5"):
         run("./configure -without-x -without-selinux")
         run("make")
         sudo("make install")
-        run("rm -rf ~/emacs-24.3")
+        run("rm -rf ~/emacs-24.5")
+        run("rm -rf ~/emacs-24.5.tar.gz")
   elif(os_name == 'ubuntu'):
     if not command_check("emacs"):
       sudo("apt-get -y install emacs24")
