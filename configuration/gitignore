@@ -29,8 +29,8 @@ ac-comphist.dat
 # /eshell/history
 # /eshell/lastdir
 
-# # elpa packages
-# /elpa/
+# elpa packages
+/elpa/
 
 # el-get packages
 /el-get/
@@ -54,8 +54,9 @@ ac-comphist.dat
 # # server auth directory
 # /server/
 
-# # projectiles files
-# .projectile
+# projectiles files
+.projectile
+projectile-bookmarks.eld
 
 # # directory configuration
 # .dir-locals.el

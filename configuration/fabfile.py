@@ -39,7 +39,8 @@ def set_emacs_user_setting():
 ;;;user-language
 ;;;ユーザーの自然言語と文字エンコーディングを設定
 (set-language-environment "Japanese")
-(prefer-coding-system 'utf-8)"""
+(prefer-coding-system 'utf-8)
+(package-initialize)"""
     file_appendln(EMACS_FILE, user_language)
 			  
   if not contains(EMACS_FILE, ";;;el-get-setting"):
