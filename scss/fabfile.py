@@ -12,8 +12,6 @@ def scss_install():
 (el-get-bundle scss-mode)
 (when (require 'scss-mode nil t)
 (add-to-list 'auto-mode-alist '("\.scss$" . scss-mode))
-;; インデント幅を2にする
-;; コンパイルは compass watchで行うので自動コンパイルをオフ
 (defun scss-custom ()
   ;;インデントモードをオフ
   (setq-default indent-tabs-mode nil)
@@ -26,3 +24,6 @@ def scss_install():
     file_appendln(EMACS_FILE,scss_mode)
     with cd(EMACS_DIR):
       run("emacs --batch --script init.el")
+  if gitcheckdiff():
+    gitcommit("scss-modeのインストールと設定")
+    print("scss-modeのインストールと設定")

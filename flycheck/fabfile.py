@@ -9,8 +9,11 @@ def flycheck_installing():
   if not contains(EMACS_FILE,";;;flycheck"):
     flycheck="""
 ;;;flycheck
-(el-get-bundle elpa:flycheck)
+(el-get-bundle flycheck)
 (add-hook 'after-init-hook #'global-flycheck-mode)"""
     file_appendln(EMACS_FILE,flycheck)
     with cd(EMACS_DIR):
       run("emacs --batch --script init.el")
+  if gitcheckdiff():
+    gitcommit("flycheckのインストール")
+    print("flycheckのインストール")

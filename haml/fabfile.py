@@ -20,4 +20,6 @@ def haml_install():
     file_appendln(EMACS_FILE,haml_mode)
     with cd(EMACS_DIR):
       run("emacs --batch --script init.el")
-    
+  if gitcheckdiff():
+    gitcommit("haml-modeのインストールとタブの設定")
+    print("haml-modeのインストールとタブの設定")

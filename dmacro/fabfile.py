@@ -20,4 +20,7 @@ def dmacro_install():
     file_appendln(EMACS_FILE,dmacro_setting)
     with cd(EMACS_DIR):
       run("emacs --batch --script init.el")
+  if gitcheckdiff():
+    gitcommit("dmacroのインストール")
+    print("dmacroのインストール")
 

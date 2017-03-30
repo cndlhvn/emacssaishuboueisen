@@ -42,6 +42,11 @@ def anything_install():
     with cd(EMACS_DIR):
       run("emacs --batch --script init.el")
     
+  if gitcheckdiff():
+    gitcommit("anythingのインストールと設定")
+    print("anythingのインストールと設定")
+
+
 @task
 def anything_killring_list():
   """[2]anythingのkill-ring-listの設定"""
@@ -52,3 +57,7 @@ def anything_killring_list():
 (setq anything-kill-ring-threshold 5)
 (global-set-key "\M-y" 'anything-show-kill-ring)"""
     file_appendln(EMACS_FILE,anything_killring)
+
+  if gitcheckdiff():
+    gitcommit("anythingコピーカットの履歴の表示をM-yに設定")
+    print("anythingコピーカットの履歴の表示をM-yに設定")

@@ -25,3 +25,6 @@ def emmet_install():
     file_appendln(EMACS_FILE,emmet_mode)
     with cd(EMACS_DIR):
       run("emacs --batch --script init.el")
+  if gitcheckdiff():
+    gitcommit("emmet-modeのインストールと設定")
+    print("emmet-modeのインストールと設定")

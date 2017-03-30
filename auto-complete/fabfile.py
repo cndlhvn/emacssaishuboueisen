@@ -17,3 +17,7 @@ def auto_complete_installing():
     file_appendln(EMACS_FILE,auto_complete)
     with cd(EMACS_DIR):
       run("emacs --batch --script init.el")
+
+  if gitcheckdiff():
+    gitcommit("auto-completeのインストールと設定")
+    print("auto-completeのインストールと設定")

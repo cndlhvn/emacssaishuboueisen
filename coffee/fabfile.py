@@ -20,3 +20,7 @@ def coffee_install():
     file_appendln(EMACS_FILE,coffee_mode)
     with cd(EMACS_DIR):
       run("emacs --batch --script  init.el")
+
+  if gitcheckdiff():
+    gitcommit("coffee-modeのインストールと設定")
+    print("coffee-modeののインストールと設定")

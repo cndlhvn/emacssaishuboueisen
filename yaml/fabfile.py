@@ -15,3 +15,6 @@ def yaml_install():
     file_appendln(EMACS_FILE,yaml_mode)
     with cd(EMACS_DIR):
       run("emacs --batch --script init.el")
+  if gitcheckdiff():
+    gitcommit("yaml-modeのインストール")
+    print("yaml-modeのインストール")
