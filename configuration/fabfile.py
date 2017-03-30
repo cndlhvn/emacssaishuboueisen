@@ -6,17 +6,33 @@ execfile("../method.py")
 @task
 def create_emacs_file_dir():
   """[1]!emacsで使うフォルダと設定ファイルを作成"""
-  
   if not dir_exists(EMACS_DIR):
     run('mkdir ' + EMACS_DIR)
   if not dir_exists(EMACS_DIR  + "backups"):
     run('mkdir ' + EMACS_DIR + "backups")
+    run('touch ' + EMACS_DIR + "backups/.keep")
   if not file_exists(EMACS_FILE):
     run('touch '+EMACS_FILE)
 			  
 @task
+def gitinit():
+  """[2]!gitの初期化とignoreファイルの作成"""
+  if not dir_exists(EMACS_DIR+".git"):
+    with cd(EMACS_DIR):
+      run("git init")
+      run("rm -f .gitignore")
+  if not file_exists(EMACS_DIR+".gitignore"):
+    put("gitignore", EMACS_DIR+".gitignore")
+  repo = git.Repo(EMACS_DIR)
+  with cd(EMACS_DIR):
+    repo.git.add(".")
+    repo.index.commit("first commit")
+    repo.git.checkout(b='auto')
+    print("初めてのコミットを行いました")
+
+@task
 def set_emacs_user_setting():
-  """[2]!emacsのログインユーザーのデフォルトセッティング"""
+  """[3]!emacsのログインユーザーのデフォルトセッティング"""
 
   if not contains(EMACS_FILE,";;;user-language"):
     user_language="""
@@ -40,6 +56,9 @@ def set_emacs_user_setting():
        "https://raw.githubusercontent.com/dimitri/el-get/master/el-get-install.el")
     (goto-char (point-max))
     (eval-print-last-sexp)))
+
+(el-get-bundle tarao/el-get-lock)
+(el-get-lock)
 """
     file_appendln(EMACS_FILE, el_get)
     with cd(EMACS_DIR):
@@ -138,10 +157,13 @@ def set_emacs_user_setting():
 (setq tab-width 2)"""
     file_appendln(EMACS_FILE,default_tab_width)
 
+  if gitcheckdiff():
+    gitcommit("emacsの初期設定")
+    print("emacsの初期設定を行いました")
 
 @task
 def back_up_setting():
-  """[3]ファイルのバックアップを一カ所に集める設定（便利）"""
+  """[4]ファイルのバックアップを一カ所に集める設定（便利）"""
   if not dir_exists(EMACS_DIR  + "backups"):
     run('mkdir ' + EMACS_DIR + "backups")
   if not contains(EMACS_FILE,";;;backup-setting"):
@@ -152,11 +174,15 @@ def back_up_setting():
 (setq auto-save-file-name-transforms
       `((".*" ,(expand-file-name "~/.emacs.d/backups/") t)))"""
     file_appendln(EMACS_FILE,backup_setting)
+
+  if gitcheckdiff():
+    gitcommit("emacsのバックアップを１箇所に集める設定")
+    print("emacsのバックアップを１箇所に集める設定をしました")
 	
 
 @task
 def share_config_with_root_user():
-  """[3]ログインユーザーのemacs設定をlnでsudoユーザーと共有する"""
+  """[4]ログインユーザーのemacs設定をlnでsudoユーザーと共有する"""
   
   login_user_name=get_login_user_name()
   os_name=check_os()
