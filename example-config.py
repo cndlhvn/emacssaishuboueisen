@@ -4,12 +4,19 @@ from fabric.colors import *
 from fabric.decorators import task,roles
 from fabric.contrib.files import *
 from cuisine import mode_sudo, select_package,package_ensure, dir_exists,file_append,file_exists,command_check
+import git
+
 
 #使用するグローバル変数
 EMACS_FILE = '~/.emacs.d/init.el'
 EMACS_DIR = '~/.emacs.d/'
 EMACS_CONF = '~/.emacs.d/conf/'
 EMACS_ELISP_DIR='~/.emacs.d/elisp/'
+
+#gitのリポジトリをセットアップ
+check_git_dir = local('if test -d '+EMACS_DIR+'.git/; then echo "exist"; fi', capture=True)
+if( check_git_dir == 'exist'):
+  repo = git.Repo(EMACS_DIR)
 
 #サーバのIPアドレス。
 #グローバルでやる場合はグローバルIPアドレス

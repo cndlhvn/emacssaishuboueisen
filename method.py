@@ -49,3 +49,24 @@ def file_appendln(location, content,tab=0):
     tabstring +="\t"
   run('echo "%s" | openssl base64 -A -d >> %s' % (base64.b64encode(tabstring+content+"\n"), shell_safe(location)))
 
+def gitcheckdiff():
+  repo.git.add(".")
+  diff_content = repo.head.commit.diff(None)
+  if len(diff_content) > 0:
+    repo.git.reset(".")
+    return True
+  else:
+    return False
+
+def gitcommit(message):
+  repo.git.add(".")
+  repo.git.commit( m=message)
+
+def gitcommitcheck():
+  t = repo.head.commit.tree
+  print(repo.git.diff(t))
+  msg = 'gitのコミット行ってよろしいでしょうか'
+  if not confirm(msg):
+    abort('中止しました。')
+  else:
+    return True
